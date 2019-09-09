@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" >
-    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
     <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css" >
     <meta
       name="description"
@@ -12,6 +13,11 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root" class="jumbotron">
+      <h2 id="counter">0</h2>
+      <button id="dec" class="btn btn-primary btn-lg">DEC</button>
+      <button id="inc" class="btn btn-primary btn-lg">INC</button>
+      <button id="rnd" class="btn btn-primary btn-lg">RND</button>
+    </div>
   </body>
 </html>
