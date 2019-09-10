@@ -1,57 +1,71 @@
-import { createStore } from 'redux';
+import { createStore, bindActionCreators } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-// Reducer - чистая функция, не изменяет аргументы, не зависит от внешних параметров, не производит побочных эффектов
-const reducer = (state = 0, action) => {
+import reducer from './reducer';
+import * as actions from "./actions";
 
-    switch (action.type) {
-        case 'RND':
-            return state + action.payload;
-        case 'INC':
-            return state + 1;
-        case 'DEC':
-            return state - 1;
-        default:
-            return state;
-    }
-};
+import Counter from './counter';
+
 
 // store.subscribe(func) - подписываемся на получение нотификации, когда store каким-либо образом изменился
 //store.getState() вызываем для получения текущего значения нашего state
 // для изменения store, для этого вызываем store.dispatch({ type: 'INC' }) и передаем тип нашего action
+// после деуструктуризации dispatch из store, его писать стало удобнее
 
 const store = createStore(reducer);
+const { dispatch } = store;
 
-//action-creators
-const inc = () => ({ type: 'INC' });
+//связывание action-creator и функции dispatch
+// это наша функция, но такая же есть и в redux, поэтому нашу мы не используем
 
-const dec = () => ({ type: 'DEC' });
-const rnd = (payload) => ({ type: 'RND', payload });
+/*const bindActionCreator = (creator, dispatch) => (...args) => {
+    dispatch(creator(...args));
+};*/
 
+//  в функии bindActionCreators от redux можн оиспользовать сразу несколько creators(inc, dec ...), для этого передаем вместо inc - объект с набором creators (функций)
+// как было /*const rndDispatch = bindActionCreators(rnd, dispatch);*/
+// как стало:
+
+const { inc, dec, rnd } = bindActionCreators(actions, dispatch);
+
+
+/*
 document
     .getElementById('inc')
-    .addEventListener('click', () => {
-        store.dispatch(inc())
-    });
+    .addEventListener('click', inc);
 
 document
     .getElementById('dec')
-    .addEventListener('click', () => {
-      store.dispatch(dec())
-    });
+    .addEventListener('click', dec);
 
 document
     .getElementById('rnd')
     .addEventListener('click', () => {
-        const payload = Math.floor(Math.random()*10);
-        store.dispatch(rnd(payload))
-    });
+      const payload = Math.floor(Math.random()*10);
+        rnd(payload)
+    });*/
+
+
 
 const update = () => {
-    document.getElementById('counter')
-        .innerHTML = store.getState();
+    ReactDOM.render(
+        <Counter
+            counter={store.getState()}
+            inc={inc}
+            dec={dec}
+            rnd={() => {
+                const payload = Math.floor(Math.random()*10);
+                rnd(payload);
+            }}
+        />,
+        document.getElementById('root')
+    );
 };
 
-
+update();
 store.subscribe(update);
+
+
 
 
