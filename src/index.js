@@ -11,7 +11,7 @@ import Counter from './counter';
 // store.subscribe(func) - подписываемся на получение нотификации, когда store каким-либо образом изменился
 //store.getState() вызываем для получения текущего значения нашего state
 // для изменения store, для этого вызываем store.dispatch({ type: 'INC' }) и передаем тип нашего action
-// после деуструктуризации dispatch из store, его писать стало удобнее
+// после деструктуризации dispatch из store, его писать стало удобнее
 
 const store = createStore(reducer);
 const { dispatch } = store;
@@ -23,7 +23,7 @@ const { dispatch } = store;
     dispatch(creator(...args));
 };*/
 
-//  в функии bindActionCreators от redux можн оиспользовать сразу несколько creators(inc, dec ...), для этого передаем вместо inc - объект с набором creators (функций)
+//  в функии bindActionCreators от redux можно использовать сразу несколько creators(inc, dec ...), для этого передаем вместо inc - объект с набором creators (функций)
 // как было /*const rndDispatch = bindActionCreators(rnd, dispatch);*/
 // как стало:
 
