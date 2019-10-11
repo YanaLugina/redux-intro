@@ -1,11 +1,12 @@
-import { createStore, bindActionCreators } from 'redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import reducer from './reducer';
-import * as actions from "./actions";
+//import * as actions from "./actions";  после деструктуризации тоже не нужен уже
 
-import Counter from './counter';
+import App from './components/app';
 
 
 // store.subscribe(func) - подписываемся на получение нотификации, когда store каким-либо образом изменился
@@ -14,7 +15,12 @@ import Counter from './counter';
 // после деструктуризации dispatch из store, его писать стало удобнее
 
 const store = createStore(reducer);
+
+/*
+До деструктуризации архитектуры, до выделения модулей в отдельную папку dispatch больше не нужен так как мы можем получить все необходимое из store в компоненте App:
 const { dispatch } = store;
+*/
+
 
 //связывание action-creator и функции dispatch
 // это наша функция, но такая же есть и в redux, поэтому нашу мы не используем
@@ -27,8 +33,10 @@ const { dispatch } = store;
 // как было /*const rndDispatch = bindActionCreators(rnd, dispatch);*/
 // как стало:
 
+/*
+До деструктуризации архитектуры, до выделения модулей в отдельную папку было:
 const { inc, dec, rnd } = bindActionCreators(actions, dispatch);
-
+ */
 
 /*
 document
@@ -48,8 +56,10 @@ document
 
 
 
-const update = () => {
-    ReactDOM.render(
+
+ReactDOM.render(
+        /*
+        До деструктуризации архитектуры, до выделения модулей в отдельную папку было:
         <Counter
             counter={store.getState()}
             inc={inc}
@@ -59,12 +69,21 @@ const update = () => {
                 rnd(payload);
             }}
         />,
-        document.getElementById('root')
-    );
-};
+        */
+    <Provider store={store}>
+            <App />
+    </Provider>,
+    document.getElementById('root')
+);
 
+
+// Provider от react-redux уже имеет подписку на обновление контента, поэтому вручную нет необходимости прописывать на изменение store, необходимо отрендерить только один раз, удаляем оборачивание render в функцию update и последующий ее вызов по подписке.
+/*
 update();
 store.subscribe(update);
+*/
+
+
 
 
 

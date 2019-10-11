@@ -1,5 +1,5 @@
 // Reducer - чистая функция, не изменяет аргументы, не зависит от внешних параметров, не производит побочных эффектов
-const reducer = (state = 0, action) => {
+const reducer = (state = 1, action) => {
 
     switch (action.type) {
         case 'RND':
