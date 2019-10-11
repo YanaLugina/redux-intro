@@ -1,4 +1,11 @@
 //action-creators
 export const inc = () => ({ type: 'INC' });
 export const dec = () => ({ type: 'DEC' });
-export const rnd = (payload) => ({ type: 'RND', payload });
+
+//action-creator может быть нечистой функцией, но лучше делать его числой функцией
+export const rnd = () => {
+    return {
+        type: 'RND',
+        payload: Math.floor(Math.random()*10)
+    };
+};
